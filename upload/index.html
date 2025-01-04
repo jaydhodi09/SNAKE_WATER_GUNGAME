@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake, Water, Gun Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>LET'S PLAY GAME @1</header>
+        <h1>Snake, Water, Gun Game</h1>
+        <p>Choose your option:</p>
+        <div class="choices">
+            <button class="choice" onclick="playGame('Snake')">Snake</button>
+            <button class="choice" onclick="playGame('Water')">Water</button>
+            <button class="choice" onclick="playGame('Gun')">Gun</button>
+        </div>
+        <div id="result"></div>
+    </div>
+     
+    <footer>Game By Jay ™</footer>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #50b9ee;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+       
+        .game-container {
+            background-color: #ffffff;
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            font-size: 1.5rem;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 50px;
+            margin-bottom: 20px;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .choice {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            border: 2px solid #333;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .choice:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        #result {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+
+    <script>
+        async function playGame(choice) {
+            const response = await fetch('/play', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ choice }),
+            });
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `
+                <p>You chose: <strong>${data.user_choice}</strong></p>
+                <p>Computer chose: <strong>${data.computer_choice}</strong></p>
+                <p><strong>${data.result}</strong></p>
+            `;
+        }
+    </script>
+</body>
+</html>
+
